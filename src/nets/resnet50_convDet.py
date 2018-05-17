@@ -2,19 +2,18 @@
 
 """ResNet50+ConvDet model."""
 
-from __future__ import absolute_import
-from __future__ import division
-from __future__ import print_function
+from __future__ import absolute_import, division, print_function
 
 import os
 import sys
 
 import joblib
-from utils import util
-from easydict import EasyDict as edict
 import numpy as np
 import tensorflow as tf
-from nn_skeleton import ModelSkeleton
+from easydict import EasyDict as edict
+
+from ..nn_skeleton import ModelSkeleton
+from ..utils import util
 
 
 class ResNet50ConvDet(ModelSkeleton):

@@ -7,22 +7,21 @@ boxes around them. In video detection mode, perform real-time detection on the
 video stream.
 """
 
-from __future__ import absolute_import
-from __future__ import division
-from __future__ import print_function
+from __future__ import absolute_import, division, print_function
 
-import cv2
-import time
-import sys
-import os
 import glob
+import os
+import sys
+import time
 
 import numpy as np
+
+import cv2
 import tensorflow as tf
 
-from config import *
-from train import _draw_box
-from nets import *
+from .config import kitti_squeezeDet_config, kitti_squeezeDetPlus_config
+from .nets import squeezeDet, squeezeDetPlus
+from .train import _draw_box
 
 FLAGS = tf.app.flags.FLAGS
 
@@ -57,7 +56,7 @@ def video_demo():
   # out.open()
 
   assert FLAGS.demo_net == 'squeezeDet' or FLAGS.demo_net == 'squeezeDet+', \
-      'Selected nueral net architecture not supported: {}'.format(FLAGS.demo_net)
+      'Selected neural net architecture not supported: {}'.format(FLAGS.demo_net)
     
   with tf.Graph().as_default():
     # Load model

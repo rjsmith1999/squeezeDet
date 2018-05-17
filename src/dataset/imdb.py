@@ -2,14 +2,18 @@
 
 """The data base wrapper class"""
 
+from __future__ import absolute_import
+
 import os
 import random
 import shutil
 
-from PIL import Image, ImageFont, ImageDraw
 import cv2
 import numpy as np
-from utils.util import iou, batch_iou
+from PIL import Image, ImageDraw, ImageFont
+
+from ..utils.util import batch_iou, iou
+
 
 class imdb(object):
   """Image database."""
@@ -153,7 +157,7 @@ class imdb(object):
             'mc.DRIFT_X and mc.DRIFT_Y must be >= 0'
 
         if mc.DRIFT_X > 0 or mc.DRIFT_Y > 0:
-          # Ensures that gt boundibg box is not cutted out of the image
+          # Ensures that gt bounding box is not cut out of the image
           max_drift_x = min(gt_bbox[:, 0] - gt_bbox[:, 2]/2.0+1)
           max_drift_y = min(gt_bbox[:, 1] - gt_bbox[:, 3]/2.0+1)
           assert max_drift_x >= 0 and max_drift_y >= 0, 'bbox out of image'
@@ -303,4 +307,3 @@ class imdb(object):
         im = np.array(im)
         out_ims.append(im[:,:,::-1]) # RGB to BGR
     return out_ims
-

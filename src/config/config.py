@@ -4,8 +4,10 @@
 
 import os
 import os.path as osp
+
 import numpy as np
 from easydict import EasyDict as edict
+
 
 def base_model_config(dataset='PASCAL_VOC'):
   assert dataset.upper()=='PASCAL_VOC' or dataset.upper()=='KITTI', \
@@ -116,7 +118,7 @@ def base_model_config(dataset='PASCAL_VOC'):
   # Whether to do data augmentation
   cfg.DATA_AUGMENTATION = False
 
-  # The range to randomly shift the image widht
+  # The range to randomly shift the image width
   cfg.DRIFT_X = 0
 
   # The range to randomly shift the image height

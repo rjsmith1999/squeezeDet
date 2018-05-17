@@ -2,23 +2,23 @@
 
 """SqueezeDet model."""
 
-from __future__ import absolute_import
-from __future__ import division
-from __future__ import print_function
+from __future__ import absolute_import, division, print_function
 
 import os
 import sys
 
 import joblib
-from utils import util
-from easydict import EasyDict as edict
 import numpy as np
 import tensorflow as tf
-from nn_skeleton import ModelSkeleton
+from easydict import EasyDict as edict
+
+from ..nn_skeleton import ModelSkeleton
+from ..utils import util
+
 
 class SqueezeDet(ModelSkeleton):
-  def __init__(self, mc, device=0):
-    with tf.device(util.parse_device(device)):
+  def __init__(self, mc, gpu_id=0):
+    with tf.device('/gpu:{}'.format(gpu_id)):
       ModelSkeleton.__init__(self, mc)
 
       self._add_forward_graph()
@@ -112,4 +112,3 @@ class SqueezeDet(ModelSkeleton):
     except TypeError:
       # fallback to the old concat
       return tf.concat(values, axis, name=name)
- 

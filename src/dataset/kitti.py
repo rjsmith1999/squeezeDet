@@ -2,13 +2,17 @@
 
 """Image data base class for kitti"""
 
-import cv2
-import os 
-import numpy as np
+from __future__ import absolute_import
+
+import os
 import subprocess
 
-from dataset.imdb import imdb
-from utils.util import bbox_transform_inv, batch_iou
+import cv2
+import numpy as np
+
+from ..utils.util import batch_iou, bbox_transform_inv
+from .imdb import imdb
+
 
 class kitti(imdb):
   def __init__(self, image_set, data_path, mc):

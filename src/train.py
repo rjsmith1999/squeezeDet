@@ -2,25 +2,23 @@
 
 """Train"""
 
-from __future__ import absolute_import
-from __future__ import division
-from __future__ import print_function
+from __future__ import absolute_import, division, print_function
 
-import cv2
-from datetime import datetime
 import os.path
 import sys
+import threading
 import time
+from datetime import datetime
 
 import numpy as np
-from six.moves import xrange
-import tensorflow as tf
-import threading
 
+import cv2
+import tensorflow as tf
 from config import *
-from dataset import pascal_voc, kitti
-from utils.util import sparse_to_dense, bgr_to_rgb, bbox_transform
+from dataset import kitti, pascal_voc
 from nets import *
+from six.moves import xrange
+from utils.util import bbox_transform, bgr_to_rgb, sparse_to_dense
 
 FLAGS = tf.app.flags.FLAGS
 
