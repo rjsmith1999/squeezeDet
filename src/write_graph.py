@@ -17,7 +17,7 @@ tf.app.flags.DEFINE_string(
 	'out_dir', './data/out/', """Directory to write output graph.""")
 tf.app.flags.DEFINE_string(
 	'demo_net', 'squeezeDet', """Neural net architecture.""")
-tf.app.flags.DEFINE_string('gpu', '0', """gpu id (or cpu).""")
+tf.app.flags.DEFINE_string('gpu', '0', """gpu id""")
 
 def main(argv=None):
   assert FLAGS.demo_net == 'squeezeDet' or FLAGS.demo_net == 'squeezeDet+', \

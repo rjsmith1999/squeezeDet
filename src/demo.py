@@ -46,7 +46,6 @@ def video_demo():
 
   cap = cv2.VideoCapture(FLAGS.input_path)
   cap.set(cv2.CAP_PROP_POS_MSEC, 17 * 60 * 1000)
-  FLAGS.gpu = "cpu"
 
   # Define the codec and create VideoWriter object
   # fourcc = cv2.cv.CV_FOURCC(*'XVID')

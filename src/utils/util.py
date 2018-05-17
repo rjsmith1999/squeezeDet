@@ -229,11 +229,3 @@ def safe_exp(w, thresh):
 
     out = lin_region*lin_out + (1.-lin_region)*exp_out
   return out
-
-def parse_device(device):
-  """Converts a variety of things into device values """
-  try:
-    int(device)
-    device = '/gpu:{}'.format(device)
-  except:
-    return '/cpu'

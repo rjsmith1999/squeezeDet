@@ -17,8 +17,8 @@ import tensorflow as tf
 from nn_skeleton import ModelSkeleton
 
 class SqueezeDetPlus(ModelSkeleton):
-  def __init__(self, mc, device=0):
-    with tf.device(util.parse_device(device)):
+  def __init__(self, mc, gpu_id=0):
+    with tf.device('/gpu:{}'.format(gpu_id)):
       ModelSkeleton.__init__(self, mc)
 
       self._add_forward_graph()
