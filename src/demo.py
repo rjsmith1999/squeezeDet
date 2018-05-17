@@ -45,6 +45,8 @@ def video_demo():
   """Detect videos."""
 
   cap = cv2.VideoCapture(FLAGS.input_path)
+  cap.set(cv2.CAP_PROP_POS_MSEC, 17 * 60 * 1000)
+  FLAGS.gpu = "cpu"
 
   # Define the codec and create VideoWriter object
   # fourcc = cv2.cv.CV_FOURCC(*'XVID')
@@ -57,7 +59,7 @@ def video_demo():
 
   assert FLAGS.demo_net == 'squeezeDet' or FLAGS.demo_net == 'squeezeDet+', \
       'Selected nueral net architecture not supported: {}'.format(FLAGS.demo_net)
-
+    
   with tf.Graph().as_default():
     # Load model
     if FLAGS.demo_net == 'squeezeDet':
@@ -78,18 +80,25 @@ def video_demo():
       saver.restore(sess, FLAGS.checkpoint)
 
       times = {}
-      count = 0
+      count = cap.get(cv2.CAP_PROP_POS_FRAMES)
+      skip_count = 30
       while cap.isOpened():
         t_start = time.time()
-        count += 1
+        count += skip_count
         out_im_name = os.path.join(FLAGS.out_dir, str(count).zfill(6)+'.jpg')
+
+        cap.set(cv2.CAP_PROP_POS_FRAMES, count)
 
         # Load images from video and crop
         ret, frame = cap.read()
         if ret==True:
           # crop frames
-          frame = frame[500:-205, 239:-439, :]
-          im_input = frame.astype(np.float32) - mc.BGR_MEANS
+          frame = frame.astype(np.float32, copy=False)
+          lframe = cv2.resize(frame, (int(mc.IMAGE_WIDTH / 2), mc.IMAGE_HEIGHT))
+          rframe = cv2.resize(frame, (int(mc.IMAGE_WIDTH / 2), mc.IMAGE_HEIGHT))
+          frame = np.concatenate((lframe, rframe), axis=1)
+          
+          im_input = frame - mc.BGR_MEANS
         else:
           break
 
@@ -135,7 +144,8 @@ def video_demo():
         t_draw = time.time()
         times['draw']= t_draw - t_filter
 
-        cv2.imwrite(out_im_name, frame)
+        # cv2.imwrite(out_im_name, frame)
+        cv2.imshow("Preview", frame / 255)
         # out.write(frame)
 
         times['total']= time.time() - t_start
@@ -149,9 +159,9 @@ def video_demo():
             format(times['total'], times['detect'], times['filter'])
 
         print (time_str)
-
         if cv2.waitKey(1) & 0xFF == ord('q'):
             break
+            
   # Release everything if job is finished
   cap.release()
   # out.release()
